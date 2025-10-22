@@ -154,6 +154,35 @@ The `Models/` folder follows domain-driven design principles with clear separati
 - `PlayerGameState`, `RoomPlayer` - State tracking
 - `GameHistory`, `GuessAttempt` - Historical data
 
+## Deployment
+
+### Deploy to Render.com
+
+This application is ready to deploy on Render.com using Docker:
+
+1. **Push your code to GitHub**
+   ```bash
+   git push -u origin main
+   ```
+
+2. **Create a new Web Service on Render.com**
+   - Go to [Render Dashboard](https://dashboard.render.com/)
+   - Click "New +" → "Web Service"
+   - Connect your GitHub repository
+
+3. **Configure the service**
+   - **Runtime**: Docker
+   - **Plan**: Free (or your preferred plan)
+   - **Environment**: Production
+   - The `render.yaml` file will auto-configure the rest
+
+4. **Deploy**
+   - Click "Create Web Service"
+   - Render will automatically build and deploy your app
+   - Your app will be available at `https://your-app-name.onrender.com`
+
+**Note**: The free tier on Render.com will spin down after inactivity and may take ~30 seconds to wake up.
+
 ## License
 
 This project was created as a technical assessment.
@@ -161,4 +190,3 @@ This project was created as a technical assessment.
 ---
 
 Built with ASP.NET Core 9.0
-
