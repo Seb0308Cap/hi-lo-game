@@ -6,6 +6,7 @@ public enum ErrorCode
     InvalidRange,
     InvalidGuess,
     InvalidPlayerName,
+    DuplicatePlayerName,
     RoomFull,
     RoomNotFound,
     RangeTooSmall,

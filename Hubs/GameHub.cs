@@ -88,7 +88,7 @@ public class GameHub : Hub
             
             if (!joinResult.IsSuccess)
             {
-                return new JoinRoomResponse(Success: false, Error: joinResult.ErrorMessage);
+                    return new JoinRoomResponse(Success: false, Error: joinResult.ErrorMessage);
             }
 
             // Set connection ID (infrastructure concern)

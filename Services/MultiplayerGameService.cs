@@ -61,6 +61,12 @@ public class MultiplayerGameService : IMultiplayerGameService
                 return OperationResult.Failure(ErrorCode.Unknown, "Game already started");
             }
 
+            // Prevent duplicate player names in the same room
+            if (room.Players.Any(p => string.Equals(p.Player.Name, player.Name, StringComparison.OrdinalIgnoreCase)))
+            {
+                return OperationResult.Failure(ErrorCode.DuplicatePlayerName, $"A player named '{player.Name}' is already in this room");
+            }
+
             var roomPlayer = RoomPlayer.Create(string.Empty, player); // ConnectionId will be set by Hub
             room.Players.Add(roomPlayer);
 
