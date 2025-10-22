@@ -5,9 +5,11 @@ using HiLoGame.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure port for Render.com deployment
+// Configure port for dev/prod (Render uses PORT). Use 5000 in development.
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+builder.WebHost.UseUrls(builder.Environment.IsDevelopment()
+    ? "http://localhost:5000"
+    : $"http://0.0.0.0:{port}");
 
 builder.Services.AddRazorPages();
 builder.Services.AddSignalR();
