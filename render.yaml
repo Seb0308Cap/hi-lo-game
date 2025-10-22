@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: hilogame
+    runtime: docker
+    plan: free
+    env:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+    healthCheckPath: /
+    autoDeploy: true
+
