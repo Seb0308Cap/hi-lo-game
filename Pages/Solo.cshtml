@@ -1,0 +1,174 @@
+@page
+@model HiLoGame.Pages.SoloModel
+@{
+    ViewData["Title"] = "Solo Mode";
+}
+
+<div class="container">
+    <div class="game-header">
+        <a href="/" class="back-link">← Back to Menu</a>
+        <h1 class="title">Hi-Lo Game - Solo Mode</h1>
+    </div>
+
+    @if (Model.CurrentGame != null)
+    {
+        <div class="player-info">
+            <span class="player-badge">@Model.CurrentGame.CurrentPlayer?.Player.Name</span>
+        </div>
+    }
+
+    <div class="game-container">
+        @if (Model.CurrentGame?.IsCompleted == true)
+        {
+            <div class="game-start">
+                <div class="win-message">
+                    <div class="celebration"><i class="fas fa-trophy"></i></div>
+                    <h2 class="win-title">Congratulations!</h2>
+                    <div class="mystery-reveal">
+                        <span class="mystery-label">Mystery number:</span>
+                        <span class="mystery-number">@Model.CurrentGame.MysteryNumber</span>
+                    </div>
+                    <p class="attempts-info">You found it in @Model.CurrentGame.CurrentPlayer?.Attempts attempts!</p>
+                    <p class="range-info-text">Range was: @Model.CurrentGame.MinNumber - @Model.CurrentGame.MaxNumber</p>
+                </div>
+                
+                <form method="post" asp-page-handler="NewGame" class="new-game-form">
+                    <button type="submit" class="btn-primary">Start New Game</button>
+                </form>
+            </div>
+        }
+        else if (Model.CurrentGame != null)
+        {
+            <div class="game-play">
+                <div class="game-info">
+                    <div class="attempts-badge">
+                        @string.Format(HiLoGame.Models.Constants.MessageConstants.AttemptsCount, Model.CurrentGame.CurrentPlayer?.Attempts ?? 0)
+                    </div>
+                    <div class="range-info">
+                        Range: @Model.CurrentGame.MinNumber - @Model.CurrentGame.MaxNumber
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.CurrentGame.CurrentPlayer?.LastMessage))
+                {
+                    <div class="feedback-message hint">
+                        @Model.CurrentGame.CurrentPlayer.LastMessage
+                    </div>
+                }
+
+                <form method="post" asp-page-handler="MakeGuess" class="guess-form">
+                    <input type="number" 
+                           name="guess" 
+                           class="guess-input" 
+                           placeholder="Enter your guess"
+                           min="@Model.CurrentGame.MinNumber"
+                           max="@Model.CurrentGame.MaxNumber"
+                           required
+                           autofocus />
+                    <button type="submit" class="btn-primary">Guess</button>
+                </form>
+
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="error-message">
+                        @Model.ErrorMessage
+                    </div>
+                }
+
+                @if (Model.CurrentGame.CurrentPlayer?.GuessAttempts.Any() == true)
+                {
+                    <div class="attempts-history">
+                        <h3 class="attempts-history-title">Your Attempts</h3>
+                        <div class="attempts-list">
+                            @foreach (var attempt in Model.CurrentGame.CurrentPlayer.GuessAttempts.OrderByDescending(a => a.AttemptNumber))
+                            {
+                                <div class="attempt-item @(attempt.Result == HiLoGame.Models.Enums.GameResult.Higher ? "attempt-higher" : attempt.Result == HiLoGame.Models.Enums.GameResult.Lower ? "attempt-lower" : "attempt-win")">
+                                    <span class="attempt-number">#@attempt.AttemptNumber</span>
+                                    <span class="attempt-guess">@attempt.GuessNumber</span>
+                                    <span class="attempt-result">
+                                        @if (attempt.Result == HiLoGame.Models.Enums.GameResult.Higher)
+                                        {
+                                            <span class="result-text">HI</span>
+                                        }
+                                        else if (attempt.Result == HiLoGame.Models.Enums.GameResult.Lower)
+                                        {
+                                            <span class="result-text">LO</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="result-text">WIN</span>
+                                        }
+                                    </span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    @if (Model.GameHistory.Any())
+    {
+        <div class="history-container">
+            <h2 class="history-title">Game History</h2>
+            <div class="history-list">
+                @foreach (var game in Model.GameHistory.Take(10))
+                {
+                    <div class="history-item">
+                        <div class="history-header">
+                            <div class="history-player">
+                                <span class="history-name">@game.PlayerName</span>
+                                <span class="history-date">@game.CompletedAt.ToString("dd/MM/yyyy HH:mm")</span>
+                            </div>
+                            <div class="history-stats">
+                                <span class="history-attempts">@game.Attempts attempts</span>
+                                <span class="history-mystery">Mystery: @game.MysteryNumber</span>
+                                <span class="history-range">[@game.MinNumber - @game.MaxNumber]</span>
+                            </div>
+                        </div>
+                        @if (game.GuessAttempts.Any())
+                        {
+                            <div class="history-attempts-list">
+                                @foreach (var attempt in game.GuessAttempts.OrderByDescending(a => a.AttemptNumber))
+                                {
+                                    <div class="history-attempt @(attempt.Result == HiLoGame.Models.Enums.GameResult.Higher ? "attempt-higher" : attempt.Result == HiLoGame.Models.Enums.GameResult.Lower ? "attempt-lower" : "attempt-win")">
+                                        <span class="attempt-number">#@attempt.AttemptNumber</span>
+                                        <span class="attempt-guess">@attempt.GuessNumber</span>
+                                        <span class="attempt-result">
+                                            @if (attempt.Result == HiLoGame.Models.Enums.GameResult.Higher)
+                                            {
+                                                <span class="result-text">HI</span>
+                                            }
+                                            else if (attempt.Result == HiLoGame.Models.Enums.GameResult.Lower)
+                                            {
+                                                <span class="result-text">LO</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="result-text">WIN</span>
+                                            }
+                                        </span>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        @foreach (var log in Model.Logs)
+        {
+            var logMethod = log.Level == "ERROR" ? "error" : "info";
+            var timestamp = log.Timestamp.ToString("HH:mm:ss");
+            var message = log.Message.Replace("'", "\\'");
+            @:console.@(logMethod)('[Hi-Lo Game @timestamp] @message');
+        }
+    </script>
+}
+

@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/sebastiencap/HiLoGame/wwwroot/css/site.css",
+      "PackagePath": "staticwebassets/css/site.css"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.HiLoGame.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.HiLoGame.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.HiLoGame.props",
+      "PackagePath": "build\\HiLoGame.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.HiLoGame.props",
+      "PackagePath": "buildMultiTargeting\\HiLoGame.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.HiLoGame.props",
+      "PackagePath": "buildTransitive\\HiLoGame.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

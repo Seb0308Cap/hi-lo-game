@@ -1,0 +1,128 @@
+@page
+@model HiLoGame.Pages.MultiplayerModel
+@{
+    ViewData["Title"] = "Multiplayer Mode";
+}
+
+<div class="container">
+    <div class="game-header">
+        <a href="/" class="back-link">← Back to Menu</a>
+        <h1 class="title">Hi-Lo Game - Multiplayer Mode</h1>
+    </div>
+
+    <!-- Room Selection Screen -->
+    <div id="roomSelection" class="game-container">
+        <div class="multiplayer-setup">
+            <h2>Join or Create a Room</h2>
+            <p class="player-welcome">Playing as: <strong id="displayPlayerName"></strong></p>
+
+            <div class="room-actions">
+                <div class="create-room-section">
+                    <h3>Create New Room</h3>
+                    <input type="text" id="roomName" class="guess-input" placeholder="Room name" style="margin-bottom: 0.75rem;" />
+                    
+                    <div class="range-inputs">
+                        <div class="range-input-group">
+                            <label for="minNumber">Min</label>
+                            <input type="number" id="minNumber" class="range-input" value="1" min="0" />
+                        </div>
+                        <div class="range-input-group">
+                            <label for="maxNumber">Max</label>
+                            <input type="number" id="maxNumber" class="range-input" value="100" min="1" />
+                        </div>
+                    </div>
+                    
+                    <button id="createRoomBtn" class="btn-primary">Create Room</button>
+                </div>
+
+                <div class="divider">OR</div>
+
+                <div class="join-room-section">
+                    <h3>Available Rooms</h3>
+                    <button id="refreshRoomsBtn" class="btn-secondary">Refresh Rooms</button>
+                    <div id="roomsList" class="rooms-list">
+                        <p class="info-message">Loading rooms...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Waiting Room Screen -->
+    <div id="waitingRoom" class="game-container" style="display: none;">
+        <div class="waiting-room">
+            <h2>Room: <span id="currentRoomName"></span></h2>
+            <div class="waiting-message">
+                <div class="spinner"></div>
+                <p>Waiting for another player to join...</p>
+                <p class="player-count">Players: <span id="playerCount">1</span>/2</p>
+            </div>
+            <button id="leaveRoomBtn" class="btn-secondary">Leave Room</button>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="gameScreen" class="game-container" style="display: none;">
+        <!-- Notification Bar -->
+        <div id="notificationBar" class="notification-bar">
+            <span id="notificationText"></span>
+        </div>
+
+        <div class="game-info-header">
+            <div class="room-name">Room: <span id="gameRoomName"></span></div>
+            <div class="players-list" id="playersList"></div>
+        </div>
+
+        <div class="game-play">
+            <div class="game-info">
+                <div class="range-info">
+                    Range: <span id="displayMinNumber">1</span> - <span id="displayMaxNumber">100</span>
+                </div>
+                <div class="round-info">
+                    Round: <span id="roundNumber">1</span>
+                </div>
+            </div>
+
+            <!-- Last Guess Result (always visible like solo) -->
+            <div id="lastGuessResult" class="feedback-message hint" style="display: none;"></div>
+
+            <form id="guessForm" class="guess-form">
+                <input type="number" 
+                       id="guessInput" 
+                       class="guess-input" 
+                       placeholder="Enter your guess"
+                       required />
+                <button type="submit" class="btn-primary" id="guessBtn">Guess</button>
+            </form>
+
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+            <!-- My Attempts History -->
+            <div id="myAttemptsHistory" class="attempts-history" style="display: none;">
+                <h3 class="attempts-history-title">My Attempts</h3>
+                <div id="myAttemptsList" class="attempts-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Over Screen -->
+    <div id="gameOverScreen" class="game-container" style="display: none;">
+        <div class="game-over">
+            <h2 class="win-title"><span id="winnerName"></span></h2>
+            <div class="mystery-reveal">
+                <span class="mystery-label">Mystery number:</span>
+                <span class="mystery-number" id="revealedNumber"></span>
+            </div>
+            
+            <div id="playersResults" class="players-results"></div>
+
+            <a href="/Multiplayer" class="btn-primary">Play Again</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+    <script src="~/js/multiplayer.js"></script>
+}
+

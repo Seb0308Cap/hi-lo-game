@@ -1,0 +1,28 @@
+﻿<Project>
+  <ItemGroup>
+    <StaticWebAssetEndpoint Include="_content/HiLoGame/css/site.css">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\site.css'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-6bPuTQhWLIOI0NzndQ3Bh6uT7dKgAN/Kcnx8czZ/t14="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"17340"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u00226bPuTQhWLIOI0NzndQ3Bh6uT7dKgAN/Kcnx8czZ/t14=\u0022"},{"Name":"Last-Modified","Value":"Wed, 22 Oct 2025 07:22:33 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/HiLoGame/css/site.fe9e5gwj0j.css">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\site.css'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"fe9e5gwj0j"},{"Name":"integrity","Value":"sha256-6bPuTQhWLIOI0NzndQ3Bh6uT7dKgAN/Kcnx8czZ/t14="},{"Name":"label","Value":"_content/HiLoGame/css/site.css"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"17340"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u00226bPuTQhWLIOI0NzndQ3Bh6uT7dKgAN/Kcnx8czZ/t14=\u0022"},{"Name":"Last-Modified","Value":"Wed, 22 Oct 2025 07:22:33 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/HiLoGame/js/multiplayer.js">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\multiplayer.js'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-VUWNWXv6xRG5Zz\u002BAJxq7\u002BlclRq/JurIvGTPA92VEpvM="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"16649"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022VUWNWXv6xRG5Zz\u002BAJxq7\u002BlclRq/JurIvGTPA92VEpvM=\u0022"},{"Name":"Last-Modified","Value":"Wed, 22 Oct 2025 07:19:21 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/HiLoGame/js/multiplayer.rsy2m241pd.js">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\multiplayer.js'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"rsy2m241pd"},{"Name":"integrity","Value":"sha256-VUWNWXv6xRG5Zz\u002BAJxq7\u002BlclRq/JurIvGTPA92VEpvM="},{"Name":"label","Value":"_content/HiLoGame/js/multiplayer.js"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"16649"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022VUWNWXv6xRG5Zz\u002BAJxq7\u002BlclRq/JurIvGTPA92VEpvM=\u0022"},{"Name":"Last-Modified","Value":"Wed, 22 Oct 2025 07:19:21 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+  </ItemGroup>
+</Project>

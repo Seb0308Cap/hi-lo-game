@@ -1,0 +1,100 @@
+@page
+@model HiLoGame.Pages.IndexModel
+@{
+    ViewData["Title"] = "Hi-Lo Game";
+}
+
+<!-- Player Name Modal -->
+<div id="playerNameModal" class="modal">
+    <div class="modal-content">
+        <h2>Welcome to Hi-Lo Game</h2>
+        <p>Please enter your name to continue</p>
+        <div class="form-group">
+            <input type="text" id="playerNameInput" class="guess-input" placeholder="Your name" required autofocus />
+        </div>
+        <button id="savePlayerNameBtn" class="btn-primary">Start Playing</button>
+    </div>
+</div>
+
+<div class="container">
+    <h1 class="title">Hi-Lo Game by Sébastien Cap</h1>
+    
+    <div class="player-info-header" id="playerInfoHeader" style="display: none;">
+        <div class="player-welcome-text">
+            <span class="welcome-label">Welcome</span>
+            <span class="player-badge" id="currentPlayerName"></span>
+        </div>
+        <button id="changePlayerNameBtn" class="btn-change-name">Change Name</button>
+    </div>
+    
+    <div id="gameModes" class="game-modes" style="display: none;">
+        <a href="/Setup" class="mode-card">
+            <div class="mode-icon"><i class="fas fa-gamepad"></i></div>
+            <h2>Solo</h2>
+            <p>Play against the computer and find the mystery number in minimum attempts</p>
+        </a>
+        
+        <a href="/Multiplayer" class="mode-card">
+            <div class="mode-icon"><i class="fas fa-users"></i></div>
+            <h2>Multiplayer</h2>
+            <p>Challenge another player in real-time</p>
+        </a>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Check and load player name
+        function checkPlayerName() {
+            const savedName = localStorage.getItem('hiLoPlayerName');
+            if (savedName) {
+                showGameModes(savedName);
+            } else {
+                document.getElementById("playerNameModal").style.display = "flex";
+            }
+        }
+
+        // Save player name
+        function savePlayerName() {
+            const name = document.getElementById("playerNameInput").value.trim();
+            if (!name) {
+                alert("Please enter your name");
+                return;
+            }
+            
+            localStorage.setItem('hiLoPlayerName', name);
+            showGameModes(name);
+        }
+
+        // Show game modes
+        function showGameModes(playerName) {
+            document.getElementById("playerNameModal").style.display = "none";
+            document.getElementById("currentPlayerName").textContent = playerName;
+            document.getElementById("playerInfoHeader").style.display = "flex";
+            document.getElementById("gameModes").style.display = "grid";
+        }
+
+        // Change player name
+        function changePlayerName() {
+            document.getElementById("gameModes").style.display = "none";
+            document.getElementById("playerInfoHeader").style.display = "none";
+            document.getElementById("playerNameInput").value = localStorage.getItem('hiLoPlayerName') || '';
+            document.getElementById("playerNameModal").style.display = "flex";
+            document.getElementById("playerNameInput").focus();
+        }
+
+        // Event listeners
+        document.addEventListener("DOMContentLoaded", () => {
+            checkPlayerName();
+
+            document.getElementById("savePlayerNameBtn").addEventListener("click", savePlayerName);
+            document.getElementById("changePlayerNameBtn").addEventListener("click", changePlayerName);
+            document.getElementById("playerNameInput").addEventListener("keypress", (e) => {
+                if (e.key === "Enter") {
+                    savePlayerName();
+                }
+            });
+        });
+    </script>
+}
+

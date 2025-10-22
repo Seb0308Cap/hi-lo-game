@@ -1,0 +1,74 @@
+@page
+@model HiLoGame.Pages.SetupModel
+@{
+    ViewData["Title"] = "Game Setup";
+}
+
+<div class="container">
+    <div class="game-header">
+        <a href="/" class="back-link">← Back to Menu</a>
+        <h1 class="title">Game Setup</h1>
+    </div>
+
+    <div class="game-container">
+        <div class="setup-content">
+            <h2 class="setup-subtitle">Configure Your Game</h2>
+            
+            <form method="post" asp-page-handler="StartGame" class="setup-form">
+                <input type="hidden" id="playerName" name="playerName" value="" />
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="minNumber">Min Number</label>
+                        <input type="number" 
+                               id="minNumber"
+                               name="minNumber" 
+                               class="form-input"
+                               value="@Model.DefaultMinNumber"
+                               required />
+                    </div>
+                    <div class="form-group">
+                        <label for="maxNumber">Max Number</label>
+                        <input type="number" 
+                               id="maxNumber"
+                               name="maxNumber" 
+                               class="form-input"
+                               value="@Model.DefaultMaxNumber"
+                               required />
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="error-message">
+                        @Model.ErrorMessage
+                    </div>
+                }
+
+                <button type="submit" class="btn-primary btn-large">Start Game</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Load player name from localStorage
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedName = localStorage.getItem('hiLoPlayerName');
+            if (savedName) {
+                document.getElementById('playerName').value = savedName;
+            }
+
+            // Update localStorage when form is submitted
+            const form = document.querySelector('form');
+            form.addEventListener('submit', (e) => {
+                const playerName = document.getElementById('playerName').value.trim();
+                if (playerName) {
+                    localStorage.setItem('hiLoPlayerName', playerName);
+                }
+            });
+        });
+    </script>
+}
+

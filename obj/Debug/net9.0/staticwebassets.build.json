@@ -1,0 +1,702 @@
+{
+  "Version": 1,
+  "Hash": "i1lWXig2/O3xUKyPg/tYwXnji23koEZWgN5ZckMiWsg=",
+  "Source": "HiLoGame",
+  "BasePath": "_content/HiLoGame",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "HiLoGame/wwwroot",
+      "Source": "HiLoGame",
+      "ContentRoot": "/Users/sebastiencap/StudioProjects/HiLoGame/wwwroot/",
+      "BasePath": "_content/HiLoGame",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/Users/sebastiencap/StudioProjects/HiLoGame/obj/Debug/net9.0/compressed/1dgk11qerz-fe9e5gwj0j.gz",
+      "SourceId": "HiLoGame",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/sebastiencap/StudioProjects/HiLoGame/obj/Debug/net9.0/compressed/",
+      "BasePath": "_content/HiLoGame",
+      "RelativePath": "css/site#[.{fingerprint=fe9e5gwj0j}]?.css.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "/Users/sebastiencap/StudioProjects/HiLoGame/wwwroot/css/site.css",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "75a9m41t7h",
+      "Integrity": "Za5DEsICQ+2v+kRZF2D71CIGAyJpIsMOco/4MQMg3bw=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "/Users/sebastiencap/StudioProjects/HiLoGame/wwwroot/css/site.css"
+    },
+    {
+      "Identity": "/Users/sebastiencap/StudioProjects/HiLoGame/obj/Debug/net9.0/compressed/8gdd3dblb2-rsy2m241pd.gz",
+      "SourceId": "HiLoGame",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/sebastiencap/StudioProjects/HiLoGame/obj/Debug/net9.0/compressed/",
+      "BasePath": "_content/HiLoGame",
+      "RelativePath": "js/multiplayer#[.{fingerprint=rsy2m241pd}]?.js.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "/Users/sebastiencap/StudioProjects/HiLoGame/wwwroot/js/multiplayer.js",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "f3wygsl1l2",
+      "Integrity": "BZlbkL0xp2+Lbvd/NsyEQe1pdEQ/GeWkRCgs3823+Z8=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "/Users/sebastiencap/StudioProjects/HiLoGame/wwwroot/js/multiplayer.js"
+    },
+    {
+      "Identity": "/Users/sebastiencap/StudioProjects/HiLoGame/wwwroot/css/site.css",
+      "SourceId": "HiLoGame",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/sebastiencap/StudioProjects/HiLoGame/wwwroot/",
+      "BasePath": "_content/HiLoGame",
+      "RelativePath": "css/site#[.{fingerprint}]?.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "fe9e5gwj0j",
+      "Integrity": "6bPuTQhWLIOI0NzndQ3Bh6uT7dKgAN/Kcnx8czZ/t14=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/css/site.css"
+    },
+    {
+      "Identity": "/Users/sebastiencap/StudioProjects/HiLoGame/wwwroot/js/multiplayer.js",
+      "SourceId": "HiLoGame",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/sebastiencap/StudioProjects/HiLoGame/wwwroot/",
+      "BasePath": "_content/HiLoGame",
+      "RelativePath": "js/multiplayer#[.{fingerprint}]?.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "rsy2m241pd",
+      "Integrity": "VUWNWXv6xRG5Zz+AJxq7+lclRq/JurIvGTPA92VEpvM=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/js/multiplayer.js"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "css/site.css",
+      "AssetFile": "/Users/sebastiencap/StudioProjects/HiLoGame/obj/Debug/net9.0/compressed/1dgk11qerz-fe9e5gwj0j.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000284333239"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3516"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Za5DEsICQ+2v+kRZF2D71CIGAyJpIsMOco/4MQMg3bw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Oct 2025 07:22:33 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"6bPuTQhWLIOI0NzndQ3Bh6uT7dKgAN/Kcnx8czZ/t14=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-6bPuTQhWLIOI0NzndQ3Bh6uT7dKgAN/Kcnx8czZ/t14="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.css",
+      "AssetFile": "/Users/sebastiencap/StudioProjects/HiLoGame/wwwroot/css/site.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "17340"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"6bPuTQhWLIOI0NzndQ3Bh6uT7dKgAN/Kcnx8czZ/t14=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Oct 2025 07:22:33 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-6bPuTQhWLIOI0NzndQ3Bh6uT7dKgAN/Kcnx8czZ/t14="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.css.gz",
+      "AssetFile": "/Users/sebastiencap/StudioProjects/HiLoGame/obj/Debug/net9.0/compressed/1dgk11qerz-fe9e5gwj0j.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3516"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Za5DEsICQ+2v+kRZF2D71CIGAyJpIsMOco/4MQMg3bw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Oct 2025 07:22:33 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Za5DEsICQ+2v+kRZF2D71CIGAyJpIsMOco/4MQMg3bw="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.fe9e5gwj0j.css",
+      "AssetFile": "/Users/sebastiencap/StudioProjects/HiLoGame/obj/Debug/net9.0/compressed/1dgk11qerz-fe9e5gwj0j.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000284333239"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3516"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Za5DEsICQ+2v+kRZF2D71CIGAyJpIsMOco/4MQMg3bw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Oct 2025 07:22:33 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"6bPuTQhWLIOI0NzndQ3Bh6uT7dKgAN/Kcnx8czZ/t14=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "fe9e5gwj0j"
+        },
+        {
+          "Name": "label",
+          "Value": "css/site.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-6bPuTQhWLIOI0NzndQ3Bh6uT7dKgAN/Kcnx8czZ/t14="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.fe9e5gwj0j.css",
+      "AssetFile": "/Users/sebastiencap/StudioProjects/HiLoGame/wwwroot/css/site.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "17340"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"6bPuTQhWLIOI0NzndQ3Bh6uT7dKgAN/Kcnx8czZ/t14=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Oct 2025 07:22:33 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "fe9e5gwj0j"
+        },
+        {
+          "Name": "label",
+          "Value": "css/site.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-6bPuTQhWLIOI0NzndQ3Bh6uT7dKgAN/Kcnx8czZ/t14="
+        }
+      ]
+    },
+    {
+      "Route": "css/site.fe9e5gwj0j.css.gz",
+      "AssetFile": "/Users/sebastiencap/StudioProjects/HiLoGame/obj/Debug/net9.0/compressed/1dgk11qerz-fe9e5gwj0j.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3516"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Za5DEsICQ+2v+kRZF2D71CIGAyJpIsMOco/4MQMg3bw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Oct 2025 07:22:33 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "fe9e5gwj0j"
+        },
+        {
+          "Name": "label",
+          "Value": "css/site.css.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Za5DEsICQ+2v+kRZF2D71CIGAyJpIsMOco/4MQMg3bw="
+        }
+      ]
+    },
+    {
+      "Route": "js/multiplayer.js",
+      "AssetFile": "/Users/sebastiencap/StudioProjects/HiLoGame/obj/Debug/net9.0/compressed/8gdd3dblb2-rsy2m241pd.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000267165375"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3742"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"BZlbkL0xp2+Lbvd/NsyEQe1pdEQ/GeWkRCgs3823+Z8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Oct 2025 07:19:21 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"VUWNWXv6xRG5Zz+AJxq7+lclRq/JurIvGTPA92VEpvM=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-VUWNWXv6xRG5Zz+AJxq7+lclRq/JurIvGTPA92VEpvM="
+        }
+      ]
+    },
+    {
+      "Route": "js/multiplayer.js",
+      "AssetFile": "/Users/sebastiencap/StudioProjects/HiLoGame/wwwroot/js/multiplayer.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "16649"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"VUWNWXv6xRG5Zz+AJxq7+lclRq/JurIvGTPA92VEpvM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Oct 2025 07:19:21 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-VUWNWXv6xRG5Zz+AJxq7+lclRq/JurIvGTPA92VEpvM="
+        }
+      ]
+    },
+    {
+      "Route": "js/multiplayer.js.gz",
+      "AssetFile": "/Users/sebastiencap/StudioProjects/HiLoGame/obj/Debug/net9.0/compressed/8gdd3dblb2-rsy2m241pd.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3742"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"BZlbkL0xp2+Lbvd/NsyEQe1pdEQ/GeWkRCgs3823+Z8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Oct 2025 07:19:21 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-BZlbkL0xp2+Lbvd/NsyEQe1pdEQ/GeWkRCgs3823+Z8="
+        }
+      ]
+    },
+    {
+      "Route": "js/multiplayer.rsy2m241pd.js",
+      "AssetFile": "/Users/sebastiencap/StudioProjects/HiLoGame/obj/Debug/net9.0/compressed/8gdd3dblb2-rsy2m241pd.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000267165375"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3742"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"BZlbkL0xp2+Lbvd/NsyEQe1pdEQ/GeWkRCgs3823+Z8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Oct 2025 07:19:21 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"VUWNWXv6xRG5Zz+AJxq7+lclRq/JurIvGTPA92VEpvM=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "rsy2m241pd"
+        },
+        {
+          "Name": "label",
+          "Value": "js/multiplayer.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-VUWNWXv6xRG5Zz+AJxq7+lclRq/JurIvGTPA92VEpvM="
+        }
+      ]
+    },
+    {
+      "Route": "js/multiplayer.rsy2m241pd.js",
+      "AssetFile": "/Users/sebastiencap/StudioProjects/HiLoGame/wwwroot/js/multiplayer.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "16649"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"VUWNWXv6xRG5Zz+AJxq7+lclRq/JurIvGTPA92VEpvM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Oct 2025 07:19:21 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "rsy2m241pd"
+        },
+        {
+          "Name": "label",
+          "Value": "js/multiplayer.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-VUWNWXv6xRG5Zz+AJxq7+lclRq/JurIvGTPA92VEpvM="
+        }
+      ]
+    },
+    {
+      "Route": "js/multiplayer.rsy2m241pd.js.gz",
+      "AssetFile": "/Users/sebastiencap/StudioProjects/HiLoGame/obj/Debug/net9.0/compressed/8gdd3dblb2-rsy2m241pd.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3742"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"BZlbkL0xp2+Lbvd/NsyEQe1pdEQ/GeWkRCgs3823+Z8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Oct 2025 07:19:21 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "rsy2m241pd"
+        },
+        {
+          "Name": "label",
+          "Value": "js/multiplayer.js.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-BZlbkL0xp2+Lbvd/NsyEQe1pdEQ/GeWkRCgs3823+Z8="
+        }
+      ]
+    }
+  ]
+}
