@@ -1,4 +1,5 @@
 using HiLoGame.Models;
+using HiLoGame.Models.Enums;
 
 namespace HiLoGame.Mappers;
 
@@ -20,7 +21,8 @@ public static class GameRoomMapper
                 MinNumber = room.Game.MinNumber,
                 MaxNumber = room.Game.MaxNumber,
                 MysteryNumber = room.Game.MysteryNumber,
-                GuessAttempts = playerState.GuessAttempts.ToList()
+                GuessAttempts = playerState.GuessAttempts.ToList(),
+                Mode = GameMode.Multiplayer
             })
             .ToList();
     }

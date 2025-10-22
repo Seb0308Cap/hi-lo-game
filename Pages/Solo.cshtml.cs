@@ -4,6 +4,7 @@ using HiLoGame.Repositories;
 using HiLoGame.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using HiLoGame.Models.Enums;
 
 namespace HiLoGame.Pages;
 
@@ -36,7 +37,9 @@ public class SoloModel : PageModel
             return RedirectToPage("/Setup");
         }
 
-        GameHistory = _historyRepository.GetAll();
+        GameHistory = _historyRepository.GetAll()
+            .Where(h => h.Mode == GameMode.Solo)
+            .ToList();
         Logs = _logger.GetLogs();
         return Page();
     }
@@ -61,7 +64,9 @@ public class SoloModel : PageModel
         if (!result.IsSuccess)
         {
             ErrorMessage = result.ErrorMessage;
-            GameHistory = _historyRepository.GetAll();
+            GameHistory = _historyRepository.GetAll()
+                .Where(h => h.Mode == GameMode.Solo)
+                .ToList();
             Logs = _logger.GetLogs();
             return Page();
         }
