@@ -158,7 +158,7 @@ The `Models/` folder follows domain-driven design principles with clear separati
 
 ### Deployed to Render.com
 
-App is available at `https://hilogame.onrender.com`
+App is available at `https://hilogame-h4dj.onrender.com`
 
 **Note**: The free tier on Render.com will spin down after inactivity and may take ~30 seconds to wake up.
 
