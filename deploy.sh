@@ -11,6 +11,7 @@ set -euo pipefail
 # - rsync et ssh disponibles en local
 # - Accès SSH sans mot de passe (clé autorisée) vers le VPS
 # - Docker installé sur le VPS
+#
 ###############################################################################
 
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -18,7 +19,7 @@ PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Paramètres VPS
 REMOTE_USER="deploy"
 REMOTE_HOST="217.65.145.248"
-REMOTE_DIR="/opt/hilogame"
+REMOTE_DIR="/home/deploy/hilogame"
 CONTAINER_NAME="hilogame"
 IMAGE_NAME="hilogame:latest"
 DOCKER_PORT="5000"
@@ -87,6 +88,8 @@ print_status "Transfert des fichiers vers le VPS..."
 print_status "Host: ${REMOTE_HOST}"
 print_status "Target directory: ${REMOTE_DIR}"
 print_status "Container port: ${DOCKER_PORT} -> Host port: ${HOST_PORT}"
+
+ssh -i "${SSH_KEY}" "${REMOTE_USER}@${REMOTE_HOST}" "mkdir -p ${REMOTE_DIR}"
 
 # Synchroniser les fichiers (sauf bin/obj)
 if rsync -az --delete "${EXCLUDE_PATTERNS[@]}" -e "${RSYNC_RSH}" "${PROJECT_DIR}/" "${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_DIR}/"; then
