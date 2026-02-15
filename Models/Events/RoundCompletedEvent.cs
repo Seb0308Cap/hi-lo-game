@@ -5,3 +5,4 @@ public record RoundCompletedEvent(
     string Message
 );
 
+public record PlayerScoreInfo(string Name, int Wins);

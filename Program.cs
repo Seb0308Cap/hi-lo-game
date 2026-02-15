@@ -5,10 +5,10 @@ using HiLoGame.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure port for dev/prod (Render uses PORT). Use 5000 in development.
+// Configure port for dev/prod (Render uses PORT). Use 5050 in dev to avoid conflict with macOS AirPlay (5000).
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 builder.WebHost.UseUrls(builder.Environment.IsDevelopment()
-    ? "http://localhost:5000"
+    ? "http://localhost:5050"
     : $"http://0.0.0.0:{port}");
 
 builder.Services.AddRazorPages();
@@ -42,6 +42,8 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseSession();
 app.UseAuthorization();
+// Ensure root URL serves the Index page
+app.MapGet("/", () => Results.Redirect("/Index"));
 app.MapRazorPages();
 app.MapHub<GameHub>("/gamehub");
 

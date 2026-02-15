@@ -4,6 +4,8 @@ public record GameStartedEvent(
     string RoomName,
     int MinNumber,
     int MaxNumber,
+    int TotalGames,
+    int GamesPlayed,
     List<PlayerInfo> Players
 );
 

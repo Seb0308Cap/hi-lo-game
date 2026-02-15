@@ -28,14 +28,14 @@ public class GameHub : Hub
         _logger = logger;
     }
 
-    public async Task<CreateRoomResponse> CreateRoom(string roomName, string playerName, int minNumber, int maxNumber)
+    public async Task<CreateRoomResponse> CreateRoom(string roomName, string playerName, int minNumber, int maxNumber, int totalGames = 1)
     {
         try
         {
             var range = GameRange.Create(minNumber, maxNumber);
             var player = Player.Create(playerName);
             
-            var result = _gameService.CreateRoom(roomName, player, range);
+            var result = _gameService.CreateRoom(roomName, player, range, totalGames);
             if (!result.IsSuccess)
             {
                 return new CreateRoomResponse(Success: false, Error: result.ErrorMessage);
@@ -43,13 +43,11 @@ public class GameHub : Hub
 
             var room = result.Data!;
             
-            // Set connection ID (infrastructure concern)
             room.Players[0].ConnectionId = Context.ConnectionId;
             
             _roomRepository.Save(room);
             await Groups.AddToGroupAsync(Context.ConnectionId, room.RoomId);
 
-            // Notify all other clients that a new room is available
             await Clients.Others.SendAsync("RoomCreated", new RoomCreatedEvent(
                 RoomId: room.RoomId,
                 RoomName: room.RoomName,
@@ -57,7 +55,8 @@ public class GameHub : Hub
                 MaxPlayers: room.MaxPlayers,
                 CreatedAt: room.CreatedAt,
                 MinNumber: room.Range.Min,
-                MaxNumber: room.Range.Max
+                MaxNumber: room.Range.Max,
+                TotalGames: room.TotalGames
             ));
 
             return new CreateRoomResponse(
@@ -140,11 +139,84 @@ public class GameHub : Hub
             RoomName: room.RoomName,
             MinNumber: room.Range.Min,
             MaxNumber: room.Range.Max,
+            TotalGames: room.TotalGames,
+            GamesPlayed: room.GamesPlayed,
             Players: room.Players.Select(p => new PlayerInfo(
                 Name: p.Player.Name,
                 ConnectionId: p.ConnectionId
             )).ToList()
         ));
+    }
+
+    public async Task<StartNextGameResponse> StartNextGame(string roomId)
+    {
+        try
+        {
+            var room = _roomRepository.GetById(roomId);
+            if (room == null)
+            {
+                return new StartNextGameResponse(Success: false, Error: "Room not found");
+            }
+
+            if (!room.IsCompleted)
+            {
+                return new StartNextGameResponse(Success: false, Error: "Current game is not finished.");
+            }
+
+            if (!room.CanPlayAgain)
+            {
+                return new StartNextGameResponse(Success: false, Error: "Maximum number of games reached.");
+            }
+
+            var roomPlayer = room.GetPlayer(Context.ConnectionId);
+            if (roomPlayer == null)
+            {
+                return new StartNextGameResponse(Success: false, Error: "Player not found");
+            }
+
+            roomPlayer.ReadyForNextGame = true;
+            _roomRepository.Save(room);
+
+            var allReady = room.Players.All(p => p.ReadyForNextGame);
+            if (allReady)
+            {
+                var result = _gameService.StartNextGame(room);
+                if (!result.IsSuccess)
+                {
+                    return new StartNextGameResponse(Success: false, Error: result.ErrorMessage);
+                }
+                _roomRepository.Save(room);
+
+                await Clients.Group(roomId).SendAsync("GameStarted", new GameStartedEvent(
+                    RoomName: room.RoomName,
+                    MinNumber: room.Range.Min,
+                    MaxNumber: room.Range.Max,
+                    TotalGames: room.TotalGames,
+                    GamesPlayed: room.GamesPlayed,
+                    Players: room.Players.Select(p => new PlayerInfo(
+                        Name: p.Player.Name,
+                        ConnectionId: p.ConnectionId
+                    )).ToList()
+                ));
+
+                return new StartNextGameResponse(Success: true, AllReady: true);
+            }
+
+            var readyNames = room.Players.Where(p => p.ReadyForNextGame).Select(p => p.Player.Name).ToList();
+            var waitingNames = room.Players.Where(p => !p.ReadyForNextGame).Select(p => p.Player.Name).ToList();
+            await Clients.Group(roomId).SendAsync("PlayersReadyForNextGame", new PlayersReadyForNextGameEvent(
+                ReadyPlayerNames: readyNames,
+                WaitingPlayerNames: waitingNames,
+                AllReady: false
+            ));
+
+            return new StartNextGameResponse(Success: true, AllReady: false, WaitingPlayerNames: waitingNames);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ErrorCode.Unknown, ex.Message);
+            return new StartNextGameResponse(Success: false, Error: ex.Message);
+        }
     }
 
     public async Task<MakeGuessResponse> MakeGuess(string roomId, int guess)
@@ -190,20 +262,22 @@ public class GameHub : Hub
                 PlayerName: roomPlayer.Player.Name
             ));
 
-            // If someone won, reveal everything
             if (result.Data?.IsGameWon == true)
             {
-                // Save to history (like solo mode)
                 var histories = GameRoomMapper.ToHistories(room);
                 foreach (var history in histories)
                 {
                     _historyRepository.Add(history);
                 }
 
+                var scores = room.Players.Select(p => new PlayerScoreInfo(p.Player.Name, p.Wins)).ToList();
                 await Clients.Group(roomId).SendAsync("GameCompleted", new GameCompletedEvent(
                     WinnerName: roomPlayer.Player.Name,
                     MysteryNumber: room.Game?.MysteryNumber ?? 0,
-                    RoundNumber: room.CurrentRound,
+                    GamesPlayed: room.GamesPlayed,
+                    TotalGames: room.TotalGames,
+                    Scores: scores,
+                    CanPlayAgain: room.CanPlayAgain,
                     Players: room.Game?.Players.Select(p => new PlayerGameInfo(
                         Name: p.Player.Name,
                         Attempts: p.Attempts,
@@ -216,30 +290,22 @@ public class GameHub : Hub
                     )).ToList() ?? new List<PlayerGameInfo>()
                 ));
             }
+            else if (room.AllPlayersGuessed())
+            {
+                room.StartNewRound();
+                _roomRepository.Save(room);
+
+                await Clients.Group(roomId).SendAsync("RoundCompleted", new RoundCompletedEvent(
+                    RoundNumber: room.CurrentRound,
+                    Message: "Nobody found it. New round!"
+                ));
+            }
             else
             {
-                // Check if both players have guessed
-                if (room.AllPlayersGuessed())
-                {
-                    // Start new round
-                    room.StartNewRound();
-                    _roomRepository.Save(room);
-
-                    await Clients.Group(roomId).SendAsync("RoundCompleted", new RoundCompletedEvent(
-                        RoundNumber: room.CurrentRound,
-                        Message: "Both players guessed. New round!"
-                    ));
-                }
-                else
-                {
-                    // This player has guessed, waiting for other player
-                    var otherPlayer = room.Players.FirstOrDefault(p => p.ConnectionId != Context.ConnectionId);
-                    
-                    // Notify the player who just guessed that they need to wait
-                    await Clients.Caller.SendAsync("WaitingForOtherPlayer", new WaitingForOtherPlayerEvent(
-                        Message: $"Waiting for {otherPlayer?.Player.Name}..."
-                    ));
-                }
+                var otherPlayer = room.Players.FirstOrDefault(p => p.ConnectionId != Context.ConnectionId);
+                await Clients.Caller.SendAsync("WaitingForOtherPlayer", new WaitingForOtherPlayerEvent(
+                    Message: $"Waiting for {otherPlayer?.Player.Name}..."
+                ));
             }
 
             _roomRepository.Save(room);
@@ -273,7 +339,8 @@ public class GameHub : Hub
                     MaxPlayers: r.MaxPlayers,
                     CreatedAt: r.CreatedAt,
                     MinNumber: r.Range.Min,
-                    MaxNumber: r.Range.Max
+                    MaxNumber: r.Range.Max,
+                    TotalGames: r.TotalGames
                 )).ToList()
             ));
         }

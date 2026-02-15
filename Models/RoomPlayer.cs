@@ -7,6 +7,10 @@ public class RoomPlayer
     public bool IsReady { get; set; }
     public DateTime JoinedAt { get; set; } = DateTime.UtcNow;
     public bool HasGuessed { get; set; }
+    /// <summary>Number of games won in this room.</summary>
+    public int Wins { get; set; }
+    /// <summary>True when this player has clicked Play Again for the next game.</summary>
+    public bool ReadyForNextGame { get; set; }
 
     public static RoomPlayer Create(string connectionId, Player player)
     {

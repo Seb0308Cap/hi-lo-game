@@ -7,6 +7,7 @@ public record RoomCreatedEvent(
     int MaxPlayers,
     DateTime CreatedAt,
     int MinNumber,
-    int MaxNumber
+    int MaxNumber,
+    int TotalGames
 );
 

@@ -207,6 +207,47 @@ body::before {
     font-weight: 600;
 }
 
+.scores-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.score-badge {
+    padding: 0.25rem 0.5rem;
+    background: #f0f0f0;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.score-badge.current-player {
+    background: var(--primary);
+    color: white;
+}
+
+.round-summary-bar {
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.round-summary-bar.round-won {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.round-summary-bar.round-none {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
 /* FEEDBACK MESSAGES */
 .feedback-message {
     padding: 0.75rem;
@@ -729,10 +770,31 @@ body::before {
     gap: 0.25rem;
 }
 
-.range-input-group label {
+.range-input-group label,
+.rounds-input-group label {
     font-size: 0.85rem;
     font-weight: 600;
     color: #555;
+}
+
+.rounds-input-group {
+    margin-bottom: 0.75rem;
+}
+
+.rounds-input-group select.range-input {
+    width: 100%;
+}
+
+.input-hint {
+    display: block;
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 0.25rem;
+}
+
+.round-sep {
+    margin: 0 0.5rem;
+    color: #999;
 }
 
 .range-input {
@@ -800,7 +862,8 @@ body::before {
     font-weight: 600;
 }
 
-.room-players {
+.room-players,
+.room-rounds {
     font-size: 0.85rem;
     color: #666;
 }
@@ -948,6 +1011,83 @@ body::before {
 .game-over {
     text-align: center;
     padding: 1.5rem;
+}
+
+.game-over .btn-primary,
+.game-over .btn-secondary {
+    margin: 0.5rem;
+}
+
+.game-progress-text {
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+}
+
+.waiting-for-next-game {
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin: 1rem 0;
+}
+
+.grand-gagnant {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--success);
+    margin-bottom: 1rem;
+}
+
+.grand-gagnant.tie {
+    color: #856404;
+}
+
+.win-title.tie {
+    color: #856404;
+}
+
+.final-scores-summary,
+.round-summaries-list {
+    margin: 1rem 0;
+    text-align: left;
+}
+
+.final-scores-summary h3,
+.round-summaries-list h3 {
+    color: var(--primary);
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+}
+
+.scores-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.score-line {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+    background: #f8f9fa;
+    border-radius: 6px;
+}
+
+.score-line.current-player {
+    background: #e7f1ff;
+    font-weight: 600;
+}
+
+.round-summary-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.round-summary-list li {
+    padding: 0.35rem 0;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95rem;
 }
 
 .players-results {

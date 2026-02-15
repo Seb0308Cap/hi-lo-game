@@ -31,6 +31,17 @@
                             <input type="number" id="maxNumber" class="range-input" value="100" min="1" />
                         </div>
                     </div>
+                    <div class="rounds-input-group">
+                        <label for="totalGames">Number of games (odd)</label>
+                        <select id="totalGames" class="range-input">
+                            <option value="1">1</option>
+                            <option value="3" selected>3</option>
+                            <option value="5">5</option>
+                            <option value="7">7</option>
+                            <option value="9">9</option>
+                        </select>
+                        <span class="input-hint">Allows playing again without creating a new room</span>
+                    </div>
                     
                     <button id="createRoomBtn" class="btn-primary">Create Room</button>
                 </div>
@@ -79,7 +90,9 @@
                     Range: <span id="displayMinNumber">1</span> - <span id="displayMaxNumber">100</span>
                 </div>
                 <div class="round-info">
-                    Round: <span id="roundNumber">1</span>
+                    Game <span id="currentGameNumber">1</span> / <span id="totalGamesDisplay">1</span>
+                    <span class="round-sep">·</span>
+                    Round <span id="roundNumber">1</span>
                 </div>
             </div>
 
@@ -109,6 +122,9 @@
     <div id="gameOverScreen" class="game-container" style="display: none;">
         <div class="game-over">
             <h2 class="win-title"><span id="winnerName"></span></h2>
+            <p class="game-progress-text"><span id="gamesPlayedText">0</span> / <span id="totalGamesText">1</span> games played</p>
+            <p id="grandGagnantText" class="grand-gagnant" style="display: none;"></p>
+            <div id="finalScoresSummary" class="final-scores-summary"></div>
             <div class="mystery-reveal">
                 <span class="mystery-label">Mystery number:</span>
                 <span class="mystery-number" id="revealedNumber"></span>
@@ -116,7 +132,9 @@
             
             <div id="playersResults" class="players-results"></div>
 
-            <a href="/Multiplayer" class="btn-primary">Play Again</a>
+            <p id="waitingForNextGameText" class="waiting-for-next-game" style="display: none;"></p>
+            <button id="playAgainBtn" type="button" class="btn-primary" style="display: none;">Play Again</button>
+            <a id="backToMenuLink" href="/Multiplayer" class="btn-secondary" style="display: none;">Back to menu</a>
         </div>
     </div>
 </div>

@@ -18,14 +18,20 @@ public class MultiplayerGameService : IMultiplayerGameService
         _logger = logger;
     }
 
-    public OperationResult<GameRoom> CreateRoom(string roomName, Player player, GameRange range)
+    public OperationResult<GameRoom> CreateRoom(string roomName, Player player, GameRange range, int totalGames = 1)
     {
         try
         {
+            if (totalGames < 1 || totalGames % 2 == 0)
+            {
+                return OperationResult<GameRoom>.Failure(ErrorCode.Unknown, "Number of games must be odd (1, 3, 5, 7, ...).");
+            }
+
             var room = new GameRoom
             {
                 RoomName = roomName,
-                Range = range
+                Range = range,
+                TotalGames = totalGames
             };
 
             var roomPlayer = RoomPlayer.Create(string.Empty, player); // ConnectionId will be set by Hub
@@ -142,8 +148,10 @@ public class MultiplayerGameService : IMultiplayerGameService
             if (gameResult == GameResult.Win)
             {
                 playerGameState.MarkAsWinner();
+                roomPlayer.Wins++;
+                room.GamesPlayed++;
                 room.CompleteGame();
-                _logger.LogInfo($"Player {roomPlayer.Player.Name} won in room {room.RoomId}");
+                _logger.LogInfo($"Player {roomPlayer.Player.Name} won game in room {room.RoomId} ({room.GamesPlayed}/{room.TotalGames})");
             }
 
             var result = new GuessResult(gameResult, resultMessage, playerGameState.Attempts, gameResult == GameResult.Win);
@@ -153,6 +161,32 @@ public class MultiplayerGameService : IMultiplayerGameService
         {
             _logger.LogError(ErrorCode.Unknown, ex.Message);
             return OperationResult<GuessResult>.Failure(ErrorCode.Unknown, "An error occurred");
+        }
+    }
+
+    public OperationResult<GameRoom> StartNextGame(GameRoom room)
+    {
+        try
+        {
+            if (!room.IsCompleted)
+            {
+                return OperationResult<GameRoom>.Failure(ErrorCode.Unknown, "Current game is not finished.");
+            }
+            if (room.GamesPlayed >= room.TotalGames)
+            {
+                return OperationResult<GameRoom>.Failure(ErrorCode.Unknown, "Maximum number of games reached.");
+            }
+
+            var newMystery = _randomGenerator.Next(room.Range.Min, room.Range.Max + 1);
+            room.StartNextGame(newMystery);
+
+            _logger.LogInfo($"Next game started in room {room.RoomId} (game {room.GamesPlayed + 1}/{room.TotalGames})");
+            return OperationResult<GameRoom>.Success(room);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ErrorCode.Unknown, ex.Message);
+            return OperationResult<GameRoom>.Failure(ErrorCode.Unknown, "Failed to start next game.");
         }
     }
 

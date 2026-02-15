@@ -19,6 +19,7 @@ public record RoomInfo(
     int MaxPlayers,
     DateTime CreatedAt,
     int MinNumber,
-    int MaxNumber
+    int MaxNumber,
+    int TotalGames
 );
 

@@ -6,6 +6,8 @@ let currentPlayerName = null;
 let myConnectionId = null;
 let hasGuessedThisRound = false;
 let currentRound = 1;
+let totalGames = 1;
+let gamesPlayed = 0;
 let myAttempts = [];
 
 // Initialize SignalR connection
@@ -32,10 +34,14 @@ function initializeConnection() {
 
     connection.on("GameStarted", (data) => {
         console.log("Game started:", data);
+        document.getElementById("gameOverScreen").style.display = "none";
+        document.getElementById("gameScreen").style.display = "block";
+        hideWaitingForNextGame();
         hasGuessedThisRound = false;
         currentRound = 1;
+        totalGames = data.totalGames ?? 1;
+        gamesPlayed = data.gamesPlayed ?? 0;
         myAttempts = [];
-        // Update room name from server data
         if (data.roomName) {
             currentRoomName = data.roomName;
         }
@@ -58,16 +64,22 @@ function initializeConnection() {
 
     connection.on("RoundCompleted", (data) => {
         console.log("Round completed:", data);
-        currentRound = data.roundNumber;
+        // Server sends the current round number (same mystery number)
+        currentRound = data.roundNumber ?? 1;
         hasGuessedThisRound = false;
         document.getElementById("roundNumber").textContent = currentRound;
-        showNotification(data.message, "success");
+        showNotification(data.message || "New round!", "success");
         enableGuessForm();
     });
 
     connection.on("GameCompleted", (data) => {
         console.log("Game completed:", data);
         showGameOver(data);
+    });
+
+    connection.on("PlayersReadyForNextGame", (data) => {
+        console.log("Players ready for next game:", data);
+        updateWaitingForNextGame(data);
     });
 
     connection.on("PlayerLeft", (data) => {
@@ -120,11 +132,13 @@ function displayRooms(rooms) {
 
 // Create HTML for a single room
 function createRoomHTML(room) {
+    const games = room.totalGames != null ? room.totalGames : 1;
     return `
         <div class="room-item" data-room-id="${room.roomId}">
             <div class="room-info">
                 <span class="room-name-text">${room.roomName}</span>
                 <span class="room-range">[${room.minNumber} - ${room.maxNumber}]</span>
+                <span class="room-rounds">${games} game(s)</span>
                 <span class="room-players">${room.playersCount}/${room.maxPlayers} players</span>
             </div>
             <button class="btn-join" onclick="joinRoom('${room.roomId}')">Join</button>
@@ -154,6 +168,8 @@ async function createRoom() {
     const roomName = document.getElementById("roomName").value.trim();
     const minNumber = parseInt(document.getElementById("minNumber").value);
     const maxNumber = parseInt(document.getElementById("maxNumber").value);
+    const totalGamesInput = document.getElementById("totalGames");
+    const totalGamesParam = totalGamesInput ? parseInt(totalGamesInput.value) || 1 : 1;
 
     if (!roomName) {
         showErrorMessage("Please enter a room name");
@@ -170,8 +186,13 @@ async function createRoom() {
         return;
     }
 
+    if (totalGamesParam < 1 || totalGamesParam % 2 === 0) {
+        showErrorMessage("Number of games must be odd (1, 3, 5, 7, 9)");
+        return;
+    }
+
     try {
-        const result = await connection.invoke("CreateRoom", roomName, currentPlayerName, minNumber, maxNumber);
+        const result = await connection.invoke("CreateRoom", roomName, currentPlayerName, minNumber, maxNumber, totalGamesParam);
         if (result.success) {
             currentRoomId = result.roomId;
             currentRoomName = result.roomName;
@@ -208,7 +229,7 @@ async function joinRoom(roomId) {
     }
 }
 
-// Start game
+// Start game (game 1 or next game after Play Again)
 function startGame(data) {
     document.getElementById("roomSelection").style.display = "none";
     document.getElementById("waitingRoom").style.display = "none";
@@ -217,25 +238,39 @@ function startGame(data) {
     document.getElementById("gameRoomName").textContent = currentRoomName;
     document.getElementById("displayMinNumber").textContent = data.minNumber;
     document.getElementById("displayMaxNumber").textContent = data.maxNumber;
-    
+
     const guessInput = document.getElementById("guessInput");
     guessInput.min = data.minNumber;
     guessInput.max = data.maxNumber;
+    guessInput.value = "";
+    guessInput.disabled = false;
+    document.getElementById("guessBtn").disabled = false;
 
     // Display players
     const playersList = document.getElementById("playersList");
-    playersList.innerHTML = data.players.map(p => 
+    playersList.innerHTML = data.players.map(p =>
         `<span class="player-badge ${p.name === currentPlayerName ? 'current-player' : ''}">${p.name}</span>`
     ).join('');
 
     document.getElementById("roundNumber").textContent = currentRound;
-    
-    // Clear last guess result on game start
+    const currentGameNum = (data.gamesPlayed ?? 0) + 1;
+    document.getElementById("currentGameNumber").textContent = currentGameNum;
+    document.getElementById("totalGamesDisplay").textContent = data.totalGames ?? 1;
+    if (data.totalGames) totalGames = data.totalGames;
+    if (data.gamesPlayed != null) gamesPlayed = data.gamesPlayed;
+
+    // Reset UI for new game: hide last guess result, clear attempts display, hide error
     const lastGuessResult = document.getElementById("lastGuessResult");
     if (lastGuessResult) {
         lastGuessResult.style.display = "none";
     }
-    
+    updateMyAttemptsDisplay();
+    const errorMessage = document.getElementById("errorMessage");
+    if (errorMessage) {
+        errorMessage.style.display = "none";
+        errorMessage.textContent = "";
+    }
+
     updateGameStatus();
     showNotification("<i class='fas fa-play-circle'></i> Game started! Good luck!", "success");
 }
@@ -331,32 +366,82 @@ function showGameOver(data) {
     document.getElementById("gameScreen").style.display = "none";
     document.getElementById("gameOverScreen").style.display = "block";
 
-    // Personalized message based on if you won or lost
     const isWinner = data.winnerName === currentPlayerName;
     const winnerNameElement = document.getElementById("winnerName");
     
     if (isWinner) {
-        winnerNameElement.innerHTML = '<i class="fas fa-trophy"></i> You won!';
+        winnerNameElement.innerHTML = '<i class="fas fa-trophy"></i> You won this game!';
         winnerNameElement.className = "winner";
     } else {
-        winnerNameElement.innerHTML = '<i class="fas fa-times-circle"></i> You lost!';
+        winnerNameElement.innerHTML = '<i class="fas fa-times-circle"></i> You lost this game';
         winnerNameElement.className = "loser";
     }
     
     document.getElementById("revealedNumber").textContent = data.mysteryNumber;
+    document.getElementById("gamesPlayedText").textContent = data.gamesPlayed ?? 0;
+    document.getElementById("totalGamesText").textContent = data.totalGames ?? 1;
+
+    const finalScoresEl = document.getElementById("finalScoresSummary");
+    if (finalScoresEl && data.scores && data.scores.length) {
+        finalScoresEl.style.display = "block";
+        finalScoresEl.innerHTML = `
+            <h3>Score (games won)</h3>
+            <div class="scores-list">
+                ${data.scores.map(s => `
+                    <div class="score-line ${s.name === currentPlayerName ? 'current-player' : ''}">
+                        <span class="score-name">${s.name}</span>
+                        <span class="score-value">${s.wins} win(s)</span>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    } else {
+        finalScoresEl.style.display = "none";
+    }
+
+    const canPlayAgain = data.canPlayAgain === true;
+    const playAgainBtn = document.getElementById("playAgainBtn");
+    const backToMenuLink = document.getElementById("backToMenuLink");
+    const grandGagnantEl = document.getElementById("grandGagnantText");
+    if (playAgainBtn) {
+        playAgainBtn.style.display = canPlayAgain ? "inline-block" : "none";
+        playAgainBtn.textContent = "Play Again";
+        playAgainBtn.disabled = false;
+    }
+    if (backToMenuLink) {
+        backToMenuLink.style.display = canPlayAgain ? "none" : "inline-block";
+    }
+    hideWaitingForNextGame();
+    // When all games are played: show overall winner (most wins)
+    if (grandGagnantEl) {
+        if (!canPlayAgain && data.scores && data.scores.length >= 2) {
+            const sorted = [...data.scores].sort((a, b) => (b.wins || 0) - (a.wins || 0));
+            if (sorted[0].wins > sorted[1].wins) {
+                grandGagnantEl.textContent = "Overall winner: " + sorted[0].name;
+                grandGagnantEl.style.display = "block";
+                grandGagnantEl.className = "grand-gagnant";
+            } else {
+                grandGagnantEl.textContent = "Tie!";
+                grandGagnantEl.style.display = "block";
+                grandGagnantEl.className = "grand-gagnant tie";
+            }
+        } else {
+            grandGagnantEl.style.display = "none";
+        }
+    }
 
     const playersResults = document.getElementById("playersResults");
     playersResults.innerHTML = `
-        <h3>Game Statistics</h3>
-        ${data.players.map(player => `
+        <h3>This game – statistics</h3>
+        ${(data.players || []).map(player => `
             <div class="player-result ${player.isWinner ? 'winner-result' : 'loser-result'}">
                 <h4>${player.name} ${player.isWinner ? '<i class="fas fa-trophy"></i>' : ''}</h4>
                 <p>Attempts: ${player.attempts}</p>
                 <div class="attempts-history">
-                    <h5>Guess History:</h5>
+                    <h5>Guess history:</h5>
                     <div class="attempts-list">
-                        ${player.guessAttempts.map(attempt => `
-                            <div class="attempt-item attempt-${attempt.result.toLowerCase()}">
+                        ${(player.guessAttempts || []).map(attempt => `
+                            <div class="attempt-item attempt-${(attempt.result || '').toLowerCase()}">
                                 <span class="attempt-number">#${attempt.attemptNumber}</span>
                                 <span class="attempt-guess">${attempt.guessNumber}</span>
                                 <span class="attempt-result">
@@ -369,6 +454,54 @@ function showGameOver(data) {
             </div>
         `).join('')}
     `;
+}
+
+async function playAgain() {
+    if (!currentRoomId || !connection) return;
+    const playAgainBtn = document.getElementById("playAgainBtn");
+    if (playAgainBtn) playAgainBtn.disabled = true;
+    try {
+        const result = await connection.invoke("StartNextGame", currentRoomId);
+        if (result.success) {
+            if (result.allReady) {
+                showNotification("New game!", "success");
+                hideWaitingForNextGame();
+            } else {
+                const waiting = result.waitingPlayerNames || [];
+                showWaitingForNextGameUI("You're ready. Waiting for " + (waiting.length ? waiting.join(", ") : "other player") + "...");
+            }
+        } else {
+            showErrorMessage(result.error || "Cannot play again");
+            if (playAgainBtn) playAgainBtn.disabled = false;
+        }
+    } catch (err) {
+        console.error("Error starting next game:", err);
+        showErrorMessage("Cannot play again");
+        if (playAgainBtn) playAgainBtn.disabled = false;
+    }
+}
+
+function updateWaitingForNextGame(data) {
+    if (data.allReady) return;
+    const waiting = data.waitingPlayerNames || [];
+    const ready = data.readyPlayerNames || [];
+    const msg = waiting.length
+        ? "Waiting for " + waiting.join(", ") + " to click Play Again..."
+        : "Everyone is ready! Starting...";
+    showWaitingForNextGameUI(msg);
+}
+
+function showWaitingForNextGameUI(message) {
+    const el = document.getElementById("waitingForNextGameText");
+    if (el) {
+        el.textContent = message;
+        el.style.display = "block";
+    }
+}
+
+function hideWaitingForNextGame() {
+    const el = document.getElementById("waitingForNextGameText");
+    if (el) el.style.display = "none";
 }
 
 // Show waiting room
@@ -472,6 +605,10 @@ document.addEventListener("DOMContentLoaded", () => {
         leaveRoomBtn.addEventListener("click", () => {
             window.location.reload();
         });
+    }
+    const playAgainBtn = document.getElementById("playAgainBtn");
+    if (playAgainBtn) {
+        playAgainBtn.addEventListener("click", playAgain);
     }
 });
 

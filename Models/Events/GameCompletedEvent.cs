@@ -1,9 +1,12 @@
 namespace HiLoGame.Models.Events;
 
 public record GameCompletedEvent(
-    string WinnerName,
+    string? WinnerName,
     int MysteryNumber,
-    int RoundNumber,
+    int GamesPlayed,
+    int TotalGames,
+    List<PlayerScoreInfo> Scores,
+    bool CanPlayAgain,
     List<PlayerGameInfo> Players
 );
 
@@ -19,4 +22,3 @@ public record GuessAttemptInfo(
     int GuessNumber,
     string Result
 );
-

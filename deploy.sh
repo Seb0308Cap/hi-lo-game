@@ -16,7 +16,7 @@ set -euo pipefail
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Paramètres VPS
-REMOTE_USER="root"
+REMOTE_USER="deploy"
 REMOTE_HOST="217.65.145.248"
 REMOTE_DIR="/opt/hilogame"
 CONTAINER_NAME="hilogame"
